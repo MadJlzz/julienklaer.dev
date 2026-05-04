@@ -6,18 +6,9 @@
   font-display: swap;
 }
 
-@font-face {
-  font-family: 'GohuFont Nerd Font 11';
-  src: url('/fonts/GohuFontuni11NerdFontMono-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
 :root {
   --bg: #0a0e1a;
   --bg-alt: #11162a;
-  --bg-elev: #161c33;
   --fg: #e5e9f0;
   --fg-dim: #8a93a8;
   --fg-mute: #5a6378;
@@ -31,7 +22,6 @@
   --level-advanced: #ff6b6b;
 
   --mono: 'GohuFont Nerd Font', ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace;
-  --mono-sm: 'GohuFont Nerd Font 11', var(--mono);
 
   --measure: 68ch;
   --gutter: clamp(1rem, 4vw, 2rem);

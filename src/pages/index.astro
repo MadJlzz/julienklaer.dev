@@ -1,26 +1,14 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import PostList from '../components/PostList.astro';
+import { getPosts, toListItem } from '../lib/posts';
+import { SITE } from '../site';
 
-const entries = await getCollection('posts', ({ data }) => import.meta.env.DEV || !data.draft);
-
-const items = entries
-  .map((entry) => ({
-    slug: entry.id,
-    title: entry.data.title,
-    date: entry.data.date,
-    level: entry.data.level,
-    excerpt: entry.data.excerpt,
-    href: `/posts/${entry.id}/`,
-    draft: entry.data.draft,
-  }))
-  .sort((a, b) => +b.date - +a.date)
-  .slice(0, 12);
+const items = (await getPosts()).slice(0, 12).map(toListItem);
 ---
 <BaseLayout>
-  <Hero title="// MadJlzz" subtitle="logs from the edge of the network" />
+  <Hero title={SITE.title} subtitle={SITE.description} />
 
   <section class="latest" aria-labelledby="latest-h">
     <h2 id="latest-h" class="section-h"># latest</h2>

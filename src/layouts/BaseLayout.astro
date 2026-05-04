@@ -2,7 +2,9 @@
 import '../styles/global.css';
 import '../styles/typography.css';
 import '../styles/animations.css';
+import { ClientRouter } from 'astro:transitions';
 import Starfield from '../components/Starfield.astro';
+import { SITE } from '../site';
 
 interface Props {
   title?: string;
@@ -10,10 +12,18 @@ interface Props {
   ogImage?: string;
 }
 
-const SITE_TITLE = '// MadJlzz';
-const { title, description = 'logs from the edge of the network', ogImage } = Astro.props;
-const fullTitle = !title || title === SITE_TITLE ? SITE_TITLE : `${title} — ${SITE_TITLE}`;
+const { title, description = SITE.description, ogImage } = Astro.props;
+const fullTitle = !title || title === SITE.title ? SITE.title : `${title} — ${SITE.title}`;
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const isHome = Astro.url.pathname === '/';
+
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE.title,
+  url: SITE.url,
+  description: SITE.description,
+};
 ---
 <!doctype html>
 <html lang="en">
@@ -21,11 +31,12 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#0a0e1a" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title={SITE.title} href="/rss.xml" />
 
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
@@ -33,11 +44,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
     <meta property="og:url" content={canonical} />
     {ogImage && <meta property="og:image" content={ogImage} />}
     <meta name="twitter:card" content="summary" />
+
+    {isHome && <script is:inline type="application/ld+json" set:html={JSON.stringify(websiteJsonLd)} />}
+    <ClientRouter />
   </head>
   <body>
     <Starfield />
     <header class="site-header">
-      <a href="/" class="brand">{SITE_TITLE}<span class="cursor-blink"> </span></a>
+      <a href="/" class="brand">{SITE.title}<span class="cursor-blink"> </span></a>
       <nav aria-label="Primary">
         <a href="/posts/">posts</a>
         <a href="/about/">about</a>
@@ -50,7 +64,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
     </main>
 
     <footer class="site-footer">
-      <span>© {new Date().getFullYear()} MadJlzz</span>
+      <span>© {new Date().getFullYear()} {SITE.handle}</span>
       <span>built with astro · gohufont</span>
     </footer>
 

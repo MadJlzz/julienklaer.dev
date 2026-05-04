@@ -1,11 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../site';
 ---
-<BaseLayout title="about" description="about jklaer">
+<BaseLayout title="about" description={`about ${SITE.handle}`}>
   <article class="prose">
     <h1>~/about</h1>
     <p>
-      Hi, I'm Julien. This is where I write about
+      Hi, I'm {SITE.author}. This is where I write about
       <span class="tag">code</span>,
       <span class="tag">music</span> and
       <span class="tag">nature</span>
@@ -14,9 +15,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       Find me elsewhere:
     </p>
     <ul>
-      <li><a href="https://github.com/MadJlzz">github</a></li>
+      <li><a href={SITE.socials.github}>github</a></li>
       <li><a href="/rss.xml">rss</a></li>
-      <li><a href="https://twitch.tv/MadJlzz">twitch</a></li>
+      <li><a href={SITE.socials.twitch}>twitch</a></li>
     </ul>
   </article>
 </BaseLayout>

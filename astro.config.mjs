@@ -7,6 +7,7 @@ const SITE = 'https://www.julienklaer.dev';
 export default defineConfig({
   site: SITE,
   integrations: [mdx(), sitemap()],
+  prefetch: true,
   markdown: {
     shikiConfig: {
       theme: 'night-owl',

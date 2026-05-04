@@ -1,20 +1,9 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostList from '../../components/PostList.astro';
+import { getPosts, toListItem } from '../../lib/posts';
 
-const entries = (await getCollection('posts', ({ data }) => import.meta.env.DEV || !data.draft))
-  .sort((a, b) => +b.data.date - +a.data.date);
-
-const items = entries.map((entry) => ({
-  slug: entry.id,
-  title: entry.data.title,
-  date: entry.data.date,
-  level: entry.data.level,
-  excerpt: entry.data.excerpt,
-  href: `/posts/${entry.id}/`,
-  draft: entry.data.draft,
-}));
+const items = (await getPosts()).map(toListItem);
 ---
 <BaseLayout title="posts" description="all posts">
   <h1 class="section-title">~/posts</h1>

@@ -1,7 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-
-type Level = 'easy' | 'intermediate' | 'advanced';
+import { SITE, type Level } from '../site';
 
 interface Props {
   title: string;
@@ -13,6 +12,18 @@ interface Props {
 }
 const { title, date, level, excerpt, tags = [], draft = false } = Astro.props;
 const fmt = (d: Date) => d.toISOString().slice(0, 10);
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  datePublished: date.toISOString(),
+  url: canonical,
+  author: { '@type': 'Person', name: SITE.author },
+  ...(excerpt && { description: excerpt }),
+  ...(tags.length > 0 && { keywords: tags.join(', ') }),
+};
 ---
 <BaseLayout title={title} description={excerpt}>
   <article class="prose">
@@ -23,13 +34,14 @@ const fmt = (d: Date) => d.toISOString().slice(0, 10);
       <span class={`level level--${level}`}>[{level}]</span>
       {draft && <span class="draft">[draft]</span>}
       {tags.length > 0 && (
-        <span>
-          {tags.map((t) => <span class="tag">{t} </span>)}
+        <span class="tag-list">
+          {tags.map((t) => <a href={`/tags/${t}/`} class="tag">{t}</a>)}
         </span>
       )}
     </div>
     <slot />
   </article>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 </BaseLayout>
 
 <style>
@@ -37,4 +49,5 @@ const fmt = (d: Date) => d.toISOString().slice(0, 10);
   .level--intermediate { color: var(--level-intermediate); }
   .level--advanced     { color: var(--level-advanced); }
   .draft { color: var(--warn); }
+  .tag-list { display: inline-flex; flex-wrap: wrap; gap: 0.5rem; }
 </style>

@@ -1,6 +1,6 @@
 ---
 ---
-<div class="starfield" aria-hidden="true">
+<div class="starfield" aria-hidden="true" transition:persist>
   <canvas id="starfield-canvas"></canvas>
 </div>
 
@@ -8,6 +8,8 @@
   (() => {
     const canvas = document.getElementById('starfield-canvas');
     if (!(canvas instanceof HTMLCanvasElement)) return;
+    if (canvas.dataset.running === '1') return;
+    canvas.dataset.running = '1';
 
     const reduce = matchMedia('(prefers-reduced-motion: reduce)');
     const ctx = canvas.getContext('2d');

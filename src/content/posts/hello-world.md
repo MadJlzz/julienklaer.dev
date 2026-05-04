@@ -19,7 +19,7 @@ on `git push`. No CMS, no admin panel, no excuses.
 
 ## what astro gives us
 
-Astro 5's `glob` loader pairs with zod for typed frontmatter. The build
+Astro 6's `glob` loader pairs with zod for typed frontmatter. The build
 fails fast if a post is missing `title`, `date`, or `level`:
 
 ```ts

@@ -44,5 +44,4 @@
 @media (prefers-reduced-motion: reduce) {
   .cursor-blink { animation: none; opacity: 0.6; }
   .starfield canvas { display: none; }
-  .hero-rocket { animation: none !important; }
 }
