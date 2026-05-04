@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import PostList from '../components/PostList.astro';
+
+const entries = await getCollection('posts', ({ data }) => import.meta.env.DEV || !data.draft);
+
+const items = entries
+  .map((entry) => ({
+    slug: entry.id,
+    title: entry.data.title,
+    date: entry.data.date,
+    level: entry.data.level,
+    excerpt: entry.data.excerpt,
+    href: `/posts/${entry.id}/`,
+    draft: entry.data.draft,
+  }))
+  .sort((a, b) => +b.date - +a.date)
+  .slice(0, 12);
+---
+<BaseLayout>
+  <Hero title="// MadJlzz" subtitle="logs from the edge of the network" />
+
+  <section class="latest" aria-labelledby="latest-h">
+    <h2 id="latest-h" class="section-h"># latest</h2>
+    {items.length === 0
+      ? <p class="empty">no posts yet — write one in <code>src/content/posts/</code></p>
+      : <PostList items={items} />}
+  </section>
+</BaseLayout>
+
+<style>
+  .section-h {
+    color: var(--accent);
+    font-size: 14px;
+    margin: 0 0 1rem;
+  }
+  .latest { margin-top: 1rem; }
+  .empty { color: var(--fg-dim); }
+</style>

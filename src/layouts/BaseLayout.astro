@@ -1,0 +1,99 @@
+---
+import '../styles/global.css';
+import '../styles/typography.css';
+import '../styles/animations.css';
+import Starfield from '../components/Starfield.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const SITE_TITLE = '// MadJlzz';
+const { title, description = 'logs from the edge of the network', ogImage } = Astro.props;
+const fullTitle = !title || title === SITE_TITLE ? SITE_TITLE : `${title} — ${SITE_TITLE}`;
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href="/rss.xml" />
+
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content="summary" />
+  </head>
+  <body>
+    <Starfield />
+    <header class="site-header">
+      <a href="/" class="brand">{SITE_TITLE}<span class="cursor-blink"> </span></a>
+      <nav aria-label="Primary">
+        <a href="/posts/">posts</a>
+        <a href="/about/">about</a>
+        <a href="/rss.xml" aria-label="RSS feed">rss</a>
+      </nav>
+    </header>
+
+    <main class="site-main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <span>© {new Date().getFullYear()} MadJlzz</span>
+      <span>built with astro · gohufont</span>
+    </footer>
+
+    <style>
+      .site-header {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        padding: 1rem var(--gutter);
+        border-bottom: 1px dashed var(--rule);
+        flex-wrap: wrap;
+      }
+      .brand {
+        color: var(--accent);
+        margin-right: auto;
+        font-size: 14px;
+      }
+      .site-header nav {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .site-header nav a { color: var(--fg-dim); }
+      .site-header nav a:hover { color: var(--accent); }
+
+      .site-main {
+        flex: 1;
+        width: 100%;
+        max-width: 920px;
+        margin: 0 auto;
+        padding: 1.5rem var(--gutter) 4rem;
+      }
+
+      .site-footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1rem var(--gutter);
+        border-top: 1px dashed var(--rule);
+        color: var(--fg-mute);
+        font-size: 14px;
+        flex-wrap: wrap;
+      }
+    </style>
+  </body>
+</html>

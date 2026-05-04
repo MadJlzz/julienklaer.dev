@@ -1,0 +1,151 @@
+@font-face {
+  font-family: 'GohuFont Nerd Font';
+  src: url('/fonts/GohuFontuni14NerdFontMono-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GohuFont Nerd Font 11';
+  src: url('/fonts/GohuFontuni11NerdFontMono-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --bg: #0a0e1a;
+  --bg-alt: #11162a;
+  --bg-elev: #161c33;
+  --fg: #e5e9f0;
+  --fg-dim: #8a93a8;
+  --fg-mute: #5a6378;
+  --accent: #7df9ff;
+  --accent-2: #ff6ec7;
+  --warn: #fbd38d;
+  --rule: #1f2741;
+
+  --level-easy: #7df9a9;
+  --level-intermediate: #ffa657;
+  --level-advanced: #ff6b6b;
+
+  --mono: 'GohuFont Nerd Font', ui-monospace, 'Cascadia Code', 'JetBrains Mono', monospace;
+  --mono-sm: 'GohuFont Nerd Font 11', var(--mono);
+
+  --measure: 68ch;
+  --gutter: clamp(1rem, 4vw, 2rem);
+  --pad-block: clamp(1.5rem, 6vh, 3rem);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+  font-smooth: never;
+  text-rendering: geometricPrecision;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+img,
+canvas,
+svg {
+  image-rendering: pixelated;
+}
+
+body {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  transition: border-color 120ms linear, color 120ms linear;
+}
+
+a:hover,
+a:focus-visible {
+  color: var(--fg);
+  border-bottom-color: var(--accent);
+  outline: none;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-bottom-color: transparent;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+hr {
+  border: none;
+  border-top: 1px dashed var(--rule);
+  margin: 2rem 0;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px solid var(--rule);
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
+
+button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+code {
+  font-family: var(--mono);
+  background: var(--bg-alt);
+  padding: 0 0.25rem;
+  border: 1px solid var(--rule);
+}
+
+pre {
+  font-family: var(--mono);
+  padding: 1rem;
+  overflow-x: auto;
+  border: 1px solid var(--rule);
+  background: var(--bg-alt) !important;
+}
+
+pre code {
+  background: transparent;
+  padding: 0;
+  border: 0;
+}
+
+blockquote {
+  border-left: 2px solid var(--accent);
+  padding: 0.25rem 1rem;
+  margin: 1rem 0;
+  color: var(--fg-dim);
+  background: var(--bg-alt);
+}

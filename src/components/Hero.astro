@@ -1,0 +1,150 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+}
+const { title, subtitle = 'logs from the edge of the network' } = Astro.props;
+
+const rocketBody = [
+  '       /\\',
+  '      /  \\',
+  '     /----\\',
+  '     |    |',
+  '     | () |',
+  '     |    |',
+  '    /|----|\\',
+  '   / |    | \\',
+  '  /__|____|__\\',
+].join('\n');
+
+const rocketFlame = [
+  '      \\||/',
+  '      ████',
+  '     ██████',
+  '    ████████',
+  '      ████',
+  '       ██',
+].join('\n');
+---
+<section class="hero" aria-label="Site hero">
+  <pre class="rocket" aria-hidden="true" id="hero-rocket"><span class="rocket-body">{rocketBody}</span>
+<span class="rocket-flame">{rocketFlame}</span></pre>
+
+  <div class="terminal">
+    <div class="prompt-row">
+      <span class="prompt">visitor@madlab:~$</span>
+      <span class="typed" id="hero-typed" data-text={`whoami && cat ./welcome.txt`}></span>
+      <span class="cursor-blink" aria-hidden="true"> </span>
+    </div>
+    <div class="output">
+      <span class="title">{title}</span>
+      <span class="subtitle">{subtitle}</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2rem;
+    align-items: center;
+    padding: var(--pad-block) 0;
+    border-bottom: 1px dashed var(--rule);
+    margin-bottom: 2rem;
+  }
+
+  @media (max-width: 640px) {
+    .hero { grid-template-columns: 1fr; }
+    .rocket { justify-self: center; }
+  }
+
+  .rocket {
+    margin: 1.5rem 2rem;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    overflow: visible !important;
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1;
+    white-space: pre;
+    display: block;
+    width: max-content;
+    rotate: 45deg;
+    transform-origin: center center;
+  }
+  .rocket-body {
+    color: var(--accent);
+    text-shadow: 0 0 8px color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+  .rocket-flame {
+    color: var(--warn);
+    text-shadow: 0 0 12px color-mix(in srgb, var(--accent-2) 50%, transparent);
+  }
+
+  .terminal { min-width: 0; }
+
+  .prompt-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .prompt { color: var(--accent-2); }
+
+  .typed {
+    color: var(--fg);
+    white-space: pre;
+  }
+
+  .output {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .title {
+    font-size: 28px;
+    color: var(--fg);
+    line-height: 1.2;
+  }
+
+  .subtitle {
+    color: var(--fg-dim);
+    font-size: 14px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .rocket {
+      animation: rocket-bob 3s ease-in-out infinite;
+      will-change: transform;
+    }
+    .rocket-flame {
+      display: inline-block;
+      animation: flame-flicker 0.4s ease-in-out infinite;
+      transform-origin: top center;
+    }
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    const target = document.getElementById('hero-typed');
+    if (!target) return;
+    const text = target.dataset.text || '';
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      target.textContent = text;
+      return;
+    }
+    let i = 0;
+    const tick = () => {
+      if (i > text.length) return;
+      target.textContent = text.slice(0, i++);
+      setTimeout(tick, 38 + Math.random() * 30);
+    };
+    setTimeout(tick, 250);
+  })();
+</script>
