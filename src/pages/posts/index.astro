@@ -1,0 +1,29 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+
+const entries = (await getCollection('posts', ({ data }) => import.meta.env.DEV || !data.draft))
+  .sort((a, b) => +b.data.date - +a.data.date);
+
+const items = entries.map((entry) => ({
+  slug: entry.id,
+  title: entry.data.title,
+  date: entry.data.date,
+  level: entry.data.level,
+  excerpt: entry.data.excerpt,
+  href: `/posts/${entry.id}/`,
+  draft: entry.data.draft,
+}));
+---
+<BaseLayout title="posts" description="all posts">
+  <h1 class="section-title">~/posts</h1>
+  {items.length === 0
+    ? <p class="empty">no posts yet.</p>
+    : <PostList items={items} />}
+</BaseLayout>
+
+<style>
+  .section-title { font-size: 28px; color: var(--accent); margin: 0 0 1rem; }
+  .empty { color: var(--fg-dim); }
+</style>

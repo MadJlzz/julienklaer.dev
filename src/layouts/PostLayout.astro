@@ -1,0 +1,40 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+type Level = 'easy' | 'intermediate' | 'advanced';
+
+interface Props {
+  title: string;
+  date: Date;
+  level: Level;
+  excerpt?: string;
+  tags?: string[];
+  draft?: boolean;
+}
+const { title, date, level, excerpt, tags = [], draft = false } = Astro.props;
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+---
+<BaseLayout title={title} description={excerpt}>
+  <article class="prose">
+    <p class="meta"><a href="/posts/">../posts</a></p>
+    <h1>{title}</h1>
+    <div class="meta-row">
+      <span>{fmt(date)}</span>
+      <span class={`level level--${level}`}>[{level}]</span>
+      {draft && <span class="draft">[draft]</span>}
+      {tags.length > 0 && (
+        <span>
+          {tags.map((t) => <span class="tag">{t} </span>)}
+        </span>
+      )}
+    </div>
+    <slot />
+  </article>
+</BaseLayout>
+
+<style>
+  .level--easy         { color: var(--level-easy); }
+  .level--intermediate { color: var(--level-intermediate); }
+  .level--advanced     { color: var(--level-advanced); }
+  .draft { color: var(--warn); }
+</style>

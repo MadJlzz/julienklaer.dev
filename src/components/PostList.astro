@@ -1,0 +1,74 @@
+---
+type Level = 'easy' | 'intermediate' | 'advanced';
+
+interface Item {
+  slug: string;
+  title: string;
+  date: Date;
+  level: Level;
+  excerpt?: string;
+  href: string;
+  draft?: boolean;
+}
+interface Props {
+  items: Item[];
+  showLevel?: boolean;
+}
+const { items, showLevel = true } = Astro.props;
+
+const fmt = (d: Date) =>
+  d.toISOString().slice(0, 10);
+---
+<ol class="post-list">
+  {items.map((item) => (
+    <li class="post-list__item">
+      <span class="date">{fmt(item.date)}</span>
+      <span class="tags">
+        {showLevel && <span class={`level level--${item.level}`}>[{item.level}]</span>}
+        {item.draft && <span class="draft">[draft]</span>}
+      </span>
+      <a href={item.href} class="title">{item.title}</a>
+      {item.excerpt && <p class="excerpt">{item.excerpt}</p>}
+    </li>
+  ))}
+</ol>
+
+<style>
+  .post-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .post-list__item {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    gap: 0.75rem;
+    align-items: baseline;
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed var(--rule);
+  }
+  .date { color: var(--fg-mute); font-size: 14px; }
+  .tags { display: inline-flex; gap: 0.5rem; font-size: 14px; }
+  .level--easy         { color: var(--level-easy); }
+  .level--intermediate { color: var(--level-intermediate); }
+  .level--advanced     { color: var(--level-advanced); }
+  .draft { color: var(--warn); }
+  .title {
+    color: var(--fg);
+    grid-column: 1 / -1;
+    margin-left: calc(10ch + 1.5rem);
+    font-size: 14px;
+  }
+  @media (min-width: 700px) {
+    .title { grid-column: auto; margin-left: 0; }
+  }
+  .excerpt {
+    grid-column: 1 / -1;
+    margin: 0.25rem 0 0;
+    color: var(--fg-dim);
+    font-size: 14px;
+  }
+</style>
