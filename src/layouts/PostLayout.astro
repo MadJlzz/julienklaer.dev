@@ -26,8 +26,8 @@ const jsonLd = {
 };
 ---
 <BaseLayout title={title} description={excerpt}>
-  <article class="prose">
-    <p class="meta"><a href="/posts/">../posts</a></p>
+  <p class="back"><a href="/posts/">../posts</a></p>
+  <article class="prose post-card">
     <h1>{title}</h1>
     <div class="meta-row">
       <span>{fmt(date)}</span>
@@ -45,6 +45,24 @@ const jsonLd = {
 </BaseLayout>
 
 <style>
+  .back {
+    color: var(--fg-dim);
+    font-size: 14px;
+    max-width: calc(var(--measure) + 5rem);
+    margin: 0 auto 1rem;
+  }
+  .post-card {
+    background: color-mix(in srgb, var(--bg-alt) 94%, var(--fg));
+    padding: clamp(2rem, 5vw, 3rem);
+    max-width: calc(var(--measure) + 5rem);
+    border-radius: 6px;
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--fg) 8%, transparent),
+      0 24px 56px -16px rgba(0, 0, 0, 0.7);
+  }
+  .post-card > :first-child {
+    margin-top: 0;
+  }
   .level--easy         { color: var(--level-easy); }
   .level--intermediate { color: var(--level-intermediate); }
   .level--advanced     { color: var(--level-advanced); }
