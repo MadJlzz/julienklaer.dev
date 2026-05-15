@@ -41,6 +41,7 @@ const jsonLd = {
     </div>
     <slot />
   </article>
+  <p class="back back--bottom"><a href="/posts/">../posts</a></p>
   <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 </BaseLayout>
 
@@ -50,6 +51,9 @@ const jsonLd = {
     font-size: 15px;
     max-width: 960px;
     margin: 0 auto 1rem;
+  }
+  .back--bottom {
+    margin: 1rem auto 0;
   }
   .post-card {
     background: color-mix(in srgb, var(--bg-alt) 94%, var(--fg));
