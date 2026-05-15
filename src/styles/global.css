@@ -40,7 +40,7 @@ html {
   background: var(--bg);
   color: var(--fg);
   font-family: var(--mono);
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.6;
   -webkit-font-smoothing: none;
   -moz-osx-font-smoothing: grayscale;
