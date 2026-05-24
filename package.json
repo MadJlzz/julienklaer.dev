@@ -14,7 +14,7 @@
     "@astrojs/mdx": "^5.0.6",
     "@astrojs/rss": "^4.0.0",
     "@astrojs/sitemap": "^3.2.0",
-    "astro": "^6.3.3",
+    "astro": "^6.3.7",
     "zod": "^4.4.3"
   },
   "devDependencies": {
