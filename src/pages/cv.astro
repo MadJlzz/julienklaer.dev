@@ -1,0 +1,519 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CV, KINDS, rich, sortedTags, uptime } from '../data/cv';
+import portraitPixel from '../assets/cv/me-dither.png';
+import portraitColor from '../assets/cv/me-color.jpg';
+
+const period = (start: string, end: string | null) => `${start} → ${end ?? 'now'}`;
+const lines = (bullets?: string[]) => bullets?.length ?? 0;
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: CV.name,
+  jobTitle: CV.title.replace(' · ', ', '),
+  url: new URL('/cv/', Astro.site).toString(),
+  address: { '@type': 'PostalAddress', addressCountry: 'LU' },
+  sameAs: [CV.contact.github.href, CV.contact.linkedin.href, CV.contact.web.href],
+};
+---
+<BaseLayout title="cv" description={`Curriculum vitae of ${CV.name}, ${CV.title}`}>
+  <article class="cv">
+    <section class="cv-hero" aria-label="Profile">
+      <figure class="portrait">
+        <button class="portrait-pic" type="button" id="portrait-toggle" aria-pressed="false" aria-label="Show the colour photo">
+          <img
+            class="portrait-pixel"
+            src={portraitPixel.src}
+            width="256"
+            height="256"
+            alt={`Portrait of ${CV.name}`}
+          />
+          <img
+            class="portrait-color"
+            src={portraitColor.src}
+            width="256"
+            height="256"
+            alt=""
+            loading="lazy"
+          />
+        </button>
+        <figcaption>me.png <span class="dim">128×128 · tap for rgb</span></figcaption>
+      </figure>
+
+      <div class="who">
+        <div class="prompt-row">
+          <span class="prompt">recruiter@madlab:~$</span>
+          <span>whoami</span>
+          <span class="cursor-blink" aria-hidden="true"> </span>
+        </div>
+        <h1 class="name">{CV.name}</h1>
+        <p class="role">{CV.title}</p>
+        <p class="dim">
+          uptime: <span class="k-num" id="cv-uptime" data-since={CV.since}>{uptime(CV.since)}</span> in production · {CV.location}
+        </p>
+
+        <dl class="contact" aria-label="Contact">
+          <dt>--mail</dt>
+          <dd>
+            <a id="cv-mail" href={CV.contact.emailLink}>{CV.contact.email}</a>
+            <button class="text-btn" type="button" data-copy="cv-mail">[copy]</button>
+          </dd>
+          <dt>--phone</dt>
+          <dd><a href={CV.contact.linkedin.href}>ask me on LinkedIn</a></dd>
+          <dt>--web</dt>
+          <dd><a href={CV.contact.web.href}>{CV.contact.web.label}</a></dd>
+          <dt>--git</dt>
+          <dd>
+            <a href={CV.contact.github.href}>{CV.contact.github.label}</a>
+            <span class="dim">·</span>
+            <a href={CV.contact.linkedin.href}>{CV.contact.linkedin.label}</a>
+          </dd>
+        </dl>
+      </div>
+    </section>
+
+    <section class="cv-section" aria-labelledby="cv-about">
+      <h2 class="section-h" id="cv-about">~/about</h2>
+      <div class="about">
+        {CV.about.map((p) => <p>{p}</p>)}
+      </div>
+    </section>
+
+    <section class="cv-section" aria-labelledby="cv-experience">
+      <h2 class="section-h" id="cv-experience">experience</h2>
+      <p class="legend" aria-label="Colour key">
+        {KINDS.map(({ kind, label }) => <span class={`k-${kind}`}>{label}</span>)}
+        <button class="text-btn toggle-all" type="button" id="cv-toggle-all" aria-pressed="false">[expand all]</button>
+      </p>
+
+      <ol class="jobs">
+        {CV.jobs.map((job) => (
+          <li class="job">
+            <div class="when">
+              <span>{period(job.start, job.end)}</span>
+              {job.end === null && <span class="skill k-ship">current</span>}
+              <span>{job.location}</span>
+            </div>
+            <h3 class="job-title">
+              {job.role} <span class="at">@</span> <span class="company">{job.company}</span>
+            </h3>
+            {job.tags.length > 0 && (
+              <div class="skills">
+                {sortedTags(job.tags).map((t) => <span class={`skill k-${t.kind}`}>{t.name}</span>)}
+              </div>
+            )}
+            <p class="summary">{job.summary}</p>
+
+            {job.bullets && (
+              <details class="more">
+                <summary>details <span class="dim">· {lines(job.bullets)} lines</span></summary>
+                <ul class="bullets">
+                  {job.bullets.map((b) => (
+                    <li><span>{rich(b).map((s) => (s.kind === 'text' ? s.text : <strong class={`k-${s.kind}`}>{s.text}</strong>))}</span></li>
+                  ))}
+                </ul>
+              </details>
+            )}
+
+            {job.roles && (
+              <details class="more">
+                <summary>roles <span class="dim">· {job.roles.map((r) => r.name).join(', ')}</span></summary>
+                <div class="roles">
+                  {job.roles.map((r) => (
+                    <div>
+                      <h4 class="role-h">{r.name}</h4>
+                      <ul class="bullets">
+                        {r.bullets.map((b) => (
+                          <li><span>{rich(b).map((s) => (s.kind === 'text' ? s.text : <strong class={`k-${s.kind}`}>{s.text}</strong>))}</span></li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </details>
+            )}
+
+            {job.missions && (
+              <>
+                <p class="dim missions-h">missions/</p>
+                <ul class="tree">
+                  {job.missions.map((m) => (
+                    <li>
+                      <details class="mission" id={`mission-${m.id}`}>
+                        <summary>
+                          <span class="when"><span>{period(m.start, m.end)}</span></span>
+                          <span class="mission-title">
+                            {m.role} <span class="at">@</span> {m.client}
+                          </span>
+                          {m.tags.length > 0 && (
+                            <span class="skills">
+                              {sortedTags(m.tags).map((t) => <span class={`skill k-${t.kind}`}>{t.name}</span>)}
+                            </span>
+                          )}
+                        </summary>
+                        <div class="mission-body">
+                          <p class="summary">{m.summary}</p>
+                          {m.bullets && (
+                            <ul class="bullets">
+                              {m.bullets.map((b) => (
+                                <li><span>{rich(b).map((s) => (s.kind === 'text' ? s.text : <strong class={`k-${s.kind}`}>{s.text}</strong>))}</span></li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+                      </details>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="cv-section" aria-labelledby="cv-certs">
+      <h2 class="section-h" id="cv-certs">certifications</h2>
+      <ul class="years">
+        {CV.certifications.map((c) => (
+          <li>
+            <span class="dim">{c.year}</span>
+            <span>
+              {c.href ? <a href={c.href}>{c.name}</a> : c.name}
+              <span class="dim"> · {c.issuer}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="cv-section" aria-labelledby="cv-education">
+      <h2 class="section-h" id="cv-education">education</h2>
+      <ul class="years">
+        {CV.education.map((e) => (
+          <li>
+            <span class="dim">{e.year}</span>
+            <span>{e.name}<span class="dim"> · {e.school}</span></span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <div class="cols">
+      <section class="cv-section" aria-labelledby="cv-languages">
+        <h2 class="section-h" id="cv-languages">languages</h2>
+        <ul class="bars">
+          {CV.languages.map((l) => (
+            <li>
+              <span>{l.name}</span>
+              <span class="meter" aria-hidden="true">{'█'.repeat(l.level)}<span class="meter-empty">{'░'.repeat(10 - l.level)}</span></span>
+              <span class="dim level">{l.label}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+      <section class="cv-section" aria-labelledby="cv-interests">
+        <h2 class="section-h" id="cv-interests">interests</h2>
+        <ul class="interests">
+          {CV.interests.map((i) => <li>{i}</li>)}
+        </ul>
+      </section>
+    </div>
+  </article>
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
+</BaseLayout>
+
+<script>
+  const init = () => {
+    const root = document.querySelector('.cv');
+    if (!root) return;
+
+    // Keep the uptime fresh between deploys.
+    const up = document.getElementById('cv-uptime');
+    const since = up?.dataset.since;
+    if (up && since) {
+      const [y, m] = since.split('-').map(Number);
+      const now = new Date();
+      const months = (now.getFullYear() - (y ?? 0)) * 12 + (now.getMonth() + 1 - (m ?? 1));
+      if (months > 0) up.textContent = `${Math.floor(months / 12)}y ${months % 12}m`;
+    }
+
+    // Colour photo on tap (hover is handled in CSS).
+    const pic = document.getElementById('portrait-toggle');
+    if (pic) {
+      pic.addEventListener('click', () => {
+        const on = pic.getAttribute('aria-pressed') !== 'true';
+        pic.setAttribute('aria-pressed', String(on));
+        pic.setAttribute('aria-label', on ? 'Show the pixel portrait' : 'Show the colour photo');
+      });
+    }
+
+    // Copy buttons.
+    root.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const src = document.getElementById(btn.dataset.copy ?? '');
+        if (!src) return;
+        const reset = () => setTimeout(() => (btn.textContent = '[copy]'), 1400);
+        try {
+          await navigator.clipboard.writeText(src.textContent?.trim() ?? '');
+          btn.textContent = '[copied]';
+        } catch {
+          const range = document.createRange();
+          range.selectNodeContents(src);
+          const sel = window.getSelection();
+          sel?.removeAllRanges();
+          sel?.addRange(range);
+          btn.textContent = '[selected]';
+        }
+        reset();
+      });
+    });
+
+    // Expand / collapse everything.
+    const all = document.getElementById('cv-toggle-all');
+    const folds = () => Array.from(root.querySelectorAll<HTMLDetailsElement>('details.more, details.mission'));
+    const sync = () => {
+      if (!all) return;
+      const open = folds().every((d) => d.open);
+      all.textContent = open ? '[collapse all]' : '[expand all]';
+      all.setAttribute('aria-pressed', String(open));
+    };
+    if (all) {
+      all.addEventListener('click', () => {
+        const target = all.getAttribute('aria-pressed') !== 'true';
+        folds().forEach((d) => (d.open = target));
+        sync();
+      });
+    }
+    folds().forEach((d) => d.addEventListener('toggle', sync));
+    sync();
+  };
+
+  // Print the full CV, whatever is folded on screen.
+  window.addEventListener('beforeprint', () => {
+    document.querySelectorAll<HTMLDetailsElement>('.cv details').forEach((d) => (d.open = true));
+  });
+
+  document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  /* Layout: one terminal column on the starfield; colours follow the skill key below. */
+  .cv {
+    --k-cloud: var(--accent);
+    --k-code: #c4a7ff;
+    --k-ship: var(--level-easy);
+    --k-people: var(--accent-2);
+    --k-num: var(--warn);
+    --body: color-mix(in srgb, var(--fg) 82%, var(--fg-dim));
+
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  .k-cloud { color: var(--k-cloud); }
+  .k-code { color: var(--k-code); }
+  .k-ship { color: var(--k-ship); }
+  .k-people { color: var(--k-people); }
+  .k-num { color: var(--k-num); }
+  .dim { color: var(--fg-dim); }
+  strong { font-weight: 400; color: var(--fg); }
+
+  p, h1, h2, h3, h4, ul, ol, dl, figure { margin: 0; }
+  h1, h2, h3, h4 { font-weight: 400; text-wrap: balance; }
+
+  .text-btn {
+    border: 0;
+    padding: 0 0 0 0.5rem;
+    color: var(--fg-mute);
+  }
+  .text-btn:hover { color: var(--warn); }
+
+  /* hero */
+  .cv-hero {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2rem;
+    align-items: center;
+    padding: var(--pad-block) 0 1rem;
+  }
+  .portrait {
+    display: grid;
+    gap: 0.4rem;
+    width: 266px;
+    max-width: 100%;
+  }
+  .portrait-pic {
+    position: relative;
+    display: block;
+    padding: 4px;
+    line-height: 0;
+    border: 1px solid var(--rule);
+    background: var(--bg-alt);
+    max-width: 100%;
+  }
+  .portrait-pic:hover { border-color: var(--accent); }
+  .portrait-pic img {
+    display: block;
+    width: 256px;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+  }
+  .portrait-color {
+    position: absolute;
+    inset: 4px;
+    width: calc(100% - 8px) !important;
+    height: calc(100% - 8px) !important;
+    object-fit: cover;
+    image-rendering: auto;
+    opacity: 0;
+    transition: opacity 0.35s steps(5);
+  }
+  .portrait-pic[aria-pressed='true'] .portrait-color { opacity: 1; }
+  @media (hover: hover) {
+    .portrait-pic:hover .portrait-color { opacity: 1; }
+  }
+  .portrait figcaption { font-size: 15px; }
+
+  .who { min-width: 0; display: grid; gap: 0.4rem; }
+  .prompt-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+  .prompt { color: var(--accent-2); }
+  .name { font-size: 28px; line-height: 1.2; color: var(--fg); margin-top: 0.4rem; }
+  .role { color: var(--accent); }
+
+  .contact {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0 1rem;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px dashed var(--rule);
+  }
+  .contact dt { color: var(--fg-dim); }
+  .contact dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+
+  /* sections */
+  .cv-section { padding-top: 2rem; }
+  .section-h { color: var(--accent); font-size: 15px; margin-bottom: 1rem; }
+  .section-h::before { content: '# '; color: var(--fg-mute); }
+  .about { display: grid; gap: 0.6rem; max-width: var(--measure); color: var(--body); }
+  .about p::before { content: '> '; color: var(--fg-mute); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 0.2rem 1rem; margin: -0.4rem 0 1.5rem; }
+  .legend span::before { content: '■ '; }
+  .toggle-all { margin-left: auto; padding: 0; }
+
+  /* experience */
+  .jobs { list-style: none; padding: 0; display: grid; gap: 2rem; }
+  .job { display: grid; gap: 0.4rem; }
+  .when { display: flex; flex-wrap: wrap; gap: 0 0.75rem; color: var(--fg-mute); font-variant-numeric: tabular-nums; }
+  .job-title { font-size: 15px; color: var(--fg); }
+  .at { color: var(--fg-mute); }
+  .company { color: var(--fg); }
+  .skills { display: flex; flex-wrap: wrap; gap: 0.1rem 0.6rem; }
+  .skill::before { content: '['; color: var(--fg-mute); }
+  .skill::after { content: ']'; color: var(--fg-mute); }
+  .summary { color: var(--body); max-width: 72ch; }
+
+  .bullets { list-style: none; padding: 0; display: grid; gap: 0.25rem; max-width: 72ch; color: var(--body); }
+  .bullets li { display: grid; grid-template-columns: 2ch 1fr; }
+  .bullets li::before { content: '-'; color: var(--fg-mute); }
+  .bullets li > span { min-width: 0; }
+
+  details.more > summary {
+    cursor: pointer;
+    list-style: none;
+    width: max-content;
+    max-width: 100%;
+    color: var(--fg-dim);
+  }
+  details.more > summary::-webkit-details-marker { display: none; }
+  details.more > summary::before { content: '[+] '; color: var(--accent); }
+  details.more[open] > summary::before { content: '[−] '; }
+  details.more > summary:hover { color: var(--fg); }
+  details.more[open] > summary { margin-bottom: 0.4rem; }
+
+  .roles { display: grid; gap: 0.75rem; }
+  .role-h { font-size: 15px; color: var(--fg); }
+  .role-h::before { content: '$ '; color: var(--accent-2); }
+
+  .missions-h { margin-top: 0.6rem; }
+  .tree { list-style: none; padding: 0; display: grid; }
+  .tree > li { display: grid; grid-template-columns: 4ch 1fr; padding-bottom: 0.9rem; }
+  .tree > li::before { content: '├──'; color: var(--fg-mute); white-space: pre; }
+  .tree > li:last-child::before { content: '└──'; }
+  .tree > li > details { min-width: 0; }
+  details.mission > summary { cursor: pointer; list-style: none; display: grid; gap: 0.15rem; }
+  details.mission > summary::-webkit-details-marker { display: none; }
+  .mission-title { color: var(--fg); }
+  .mission-title::after { content: ' [+]'; color: var(--accent); }
+  details.mission[open] .mission-title::after { content: ' [−]'; }
+  .mission-body { display: grid; gap: 0.4rem; padding-top: 0.4rem; }
+
+  /* small lists */
+  .years { list-style: none; padding: 0; display: grid; gap: 0.4rem; }
+  .years li { display: grid; grid-template-columns: 5ch 1fr; gap: 0 1rem; }
+  .years li > span:last-child { min-width: 0; }
+  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0 2rem; }
+  .bars { list-style: none; padding: 0; display: grid; gap: 0.4rem; }
+  .bars li { display: grid; grid-template-columns: 9ch 12ch 1fr; gap: 0 0.6rem; align-items: baseline; }
+  .meter { color: var(--accent); white-space: pre; }
+  .meter-empty { color: var(--rule); }
+  .interests { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1.2rem; }
+  .interests li::before { content: '* '; color: var(--accent); }
+
+  @media (max-width: 640px) {
+    .cv-hero { grid-template-columns: 1fr; gap: 1.25rem; }
+    .contact { grid-template-columns: 1fr; }
+    .contact dt { margin-top: 0.3rem; }
+    .bars li { grid-template-columns: 9ch 1fr; }
+    .bars .level { grid-column: 2; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .portrait-color { transition: none; }
+  }
+
+  @media print {
+    .cv {
+      --k-cloud: #0b5cad;
+      --k-code: #5b3fb3;
+      --k-ship: #1d7a3e;
+      --k-people: #a8336a;
+      --k-num: #8a5a00;
+      --body: #222;
+    }
+    .text-btn, .toggle-all, .cursor-blink, .portrait figcaption, .portrait-pixel { display: none; }
+    .cv-hero { grid-template-columns: auto 1fr; padding-top: 0; }
+    .portrait, .portrait-pic { width: auto; border: 0; padding: 0; background: none; }
+    .portrait-pic img.portrait-color {
+      position: static;
+      opacity: 1;
+      width: 120px !important;
+      height: 120px !important;
+    }
+    .job { break-inside: avoid; }
+  }
+</style>
+
+<style is:global>
+  @media print {
+    :root {
+      --bg: #fff;
+      --bg-alt: #fff;
+      --fg: #111;
+      --fg-dim: #555;
+      --fg-mute: #777;
+      --accent: #0b5cad;
+      --accent-2: #a8336a;
+      --rule: #bbb;
+    }
+    html { background: #fff; color: #111; }
+    .starfield, .site-header nav, .site-footer { display: none !important; }
+    .site-header { border: 0; }
+    a { border-bottom: 0; }
+  }
+</style>
