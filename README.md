@@ -21,4 +21,5 @@ Frontmatter is validated by zod (`src/content/config.ts`). Required fields:
 - Site title — `SITE_TITLE` in `src/layouts/BaseLayout.astro`
 - Colors — CSS custom properties in `src/styles/global.css`
 - Hero — `src/components/Hero.astro`
+- CV — content in `src/data/cv.ts`, page in `src/pages/cv.astro`
 - Code theme — `shikiConfig.theme` in `astro.config.mjs`
