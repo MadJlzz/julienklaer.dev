@@ -107,7 +107,7 @@ const personJsonLd = {
 
             {job.bullets && (
               <details class="more">
-                <summary>details <span class="dim">· {lines(job.bullets)} lines</span></summary>
+                <summary>details <span class="dim">· {lines(job.bullets)} points</span></summary>
                 <ul class="bullets">
                   {job.bullets.map((b) => (
                     <li><span>{rich(b).map((s) => (s.kind === 'text' ? s.text : <strong class={`k-${s.kind}`}>{s.text}</strong>))}</span></li>
