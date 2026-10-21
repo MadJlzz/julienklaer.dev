@@ -121,9 +121,9 @@ export const CV: CvData = {
   },
 
   about: [
-    'Senior Software Engineer who got caught in the wonderful world of Cloud Computing and the DevOps philosophy. Always eager to learn, I spend real time on technology watch to keep up with the latest trends. Lately I have been putting effort into Python and Go, and I just fell in love with them.',
-    'I love challenges and meeting new people. I am convinced that everyone has a story and something to share.',
-    'Last but not least, I always do my best to share good vibes.',
+    "I'm a Senior Software Engineer who fell into the wonderful world of cloud computing and the DevOps philosophy. Always eager to learn, I make time to follow the industry and keep up with the latest trends. Over the last few years I've invested a lot in Python and Go, and I've fallen in love with both.",
+    'I love taking on challenges and meeting new people. I am convinced that everyone has a story and something to share.',
+    'Last but not least, I always do my best to spread good vibes.',
   ],
 
   jobs: [
@@ -134,19 +134,19 @@ export const CV: CvData = {
       end: null,
       location: 'Luxembourg',
       summary:
-        'Tadaweb builds an OSINT platform whose purpose is to make the world safer by empowering the human mind with the right information at the right time.',
+        'Tadaweb builds an OSINT platform whose mission is to make the world a safer place by empowering the human mind with the right information at the right time.',
       tags: ['terraform', 'kubernetes', 'cluster-api', 'golang', 'argocd', 'observability', 'gitlab-ci'],
       bullets: [
-        'build and enhance core platform infrastructure (VPCs, Postgres, Mongo, Redis, image registries, […]) with {cloud:Terraform} on GCP, Azure and AWS',
-        'deploy and run {num:~15} {cloud:Kubernetes clusters} day to day, provisioned with Cluster API (self-managed) or Terraform (managed, e.g. GKE)',
-        'maintain custom node images built with Packer for immutable infrastructure and hardened security/compliance',
-        'collect metrics, traces and logs to derive SLIs and write meaningful {ship:SLOs} (Fluent Bit, Fluentd, Loki, Elasticsearch, Kibana, Prometheus, Grafana, Tempo/Jaeger, Thanos)',
-        'ship smart alerts on those metrics to act fast when a component fails, and write post-mortems on what happened, how it was solved and how to avoid it next time',
-        'configure standalone VMs with Ansible',
-        'continuous deployment with a {ship:GitOps} model on ArgoCD',
-        'maintain a library of GitLab CI templates shared across dev teams: image builds (Kaniko, Buildah), scanning (Trivy, Grype), signing (Cosign) and binary authorization (Kyverno)',
-        'write tools in {code:Go} for platform challenges: a Terraform provider, CLIs, services talking directly to the Kubernetes API',
-        'write Python glue tools that chain process steps together (e.g. Terraform with Ansible)',
+        "build and improve the platform's core infrastructure (VPCs, PostgreSQL, MongoDB, Redis, image registries and more) with {cloud:Terraform} on GCP, Azure and AWS",
+        'deploy and operate {num:~15} {cloud:Kubernetes clusters} day to day, provisioned with Cluster API (self-managed) or Terraform (managed, e.g. GKE)',
+        'maintain custom node images built with Packer, for immutable infrastructure and hardened security and compliance',
+        'collect metrics, traces and logs to define SLIs and write meaningful {ship:SLOs} (Fluent Bit, Fluentd, Loki, Elasticsearch, Kibana, Prometheus, Grafana, Tempo/Jaeger, Thanos)',
+        'set up smart alerts on those metrics to react quickly when a component fails, and write post-mortems covering what happened, how it was fixed and how to prevent it from happening again',
+        'configure standalone VMs outside the main platform with Ansible',
+        'run continuous deployment with a {ship:GitOps} model on Argo CD',
+        'maintain a library of GitLab CI templates shared across development teams to standardise image building (Kaniko, Buildah), scanning (Trivy, Grype), signing (Cosign) and binary authorisation (Kyverno)',
+        'write {code:Go} tools to solve platform challenges: a Terraform provider, CLIs, and services that talk directly to the Kubernetes API',
+        'write Python glue tools that chain the steps of a process together (e.g. Terraform and Ansible)',
       ],
     },
     {
@@ -156,19 +156,19 @@ export const CV: CvData = {
       end: '2022-08',
       location: 'Luxembourg',
       summary:
-        'FinTech providing SaaS solutions for the asset management industry. Joined as Google Cloud Architect, then took the lead of the software engineering team. Most projects were written in Python.',
+        'Next Gate Tech is a FinTech company providing SaaS solutions to the asset management industry. I joined as a Google Cloud Architect, then took over as head of the software engineering team. Most of our projects were written in Python.',
       tags: ['gcp', 'terraform', 'ibm-cloud', 'python', 'management'],
       bullets: [
-        'own the **best practices** for consuming {cloud:Google Cloud Platform} (Cloud Functions, Cloud Run, App Engine, Compute Engine, Cloud Storage, Pub/Sub, BigQuery, Firestore/Datastore, Cloud Operations)',
-        'manage GCP **costs** with alerts and reports',
-        'full **migration** of the company information system to {cloud:Google Workspace}, then run it with strong **security practices** (password policy, 2FA, apps, users and groups)',
-        'domain administrator: DNS, SPF, DKIM, DMARC',
-        "develop and maintain the company's first product in {code:Python 3.7}: scalable, cost-efficient and reliable data pipelines",
-        'build NGX, a new {cloud:cloud-independent} version of the product in {code:Python 3.9}, and deploy it to {cloud:IBM Cloud} for a client',
-        'project management on part of NGX following agile methodology',
-        'promote the {ship:DevOps philosophy}: Infrastructure as Code with Terraform, CI/CD with GitHub Actions and Cloud Build',
-        'review security policies with the Cybersecurity Engineer and write availability procedures following SRE practices (BCP, DRP, …)',
-        '{people:manage} all software engineers of the company',
+        'defined and maintained the **best practices** for using {cloud:Google Cloud Platform} (Cloud Functions, Cloud Run, App Engine, Compute Engine, Cloud Storage, Pub/Sub, BigQuery, Firestore/Datastore, Cloud Operations)',
+        'managed GCP **costs** through alerts and reports',
+        "led the full **migration** of the company's information system to {cloud:Google Workspace}, then ran it with strong **security practices** (password policy, 2FA, apps, users and groups)",
+        'administered the company domain: DNS, SPF, DKIM, DMARC',
+        "developed and maintained the company's first product in {code:Python 3.7}: scalable, cost-efficient and reliable data pipelines",
+        'built NGX, a new {cloud:cloud-agnostic} version of the product in {code:Python 3.9}, and deployed it to {cloud:IBM Cloud} for a client',
+        'managed part of the NGX project using agile methods',
+        'promoted the {ship:DevOps philosophy}: Infrastructure as Code with Terraform, CI/CD with GitHub Actions and Cloud Build',
+        'reviewed security policies with the cybersecurity engineer and wrote availability procedures following SRE practices (BCP, DRP, …)',
+        "{people:managed} all of the company's software engineers",
       ],
     },
     {
@@ -178,29 +178,29 @@ export const CV: CvData = {
       end: '2020-09',
       location: 'Luxembourg',
       summary:
-        'Joined as a fullstack engineer specialised in backend, DevOps and Cloud. Quickly took on coaching colleagues spread across clients, training, recruiting, and talks on trending topics (IoT, Go, …).',
+        'I joined as a full-stack engineer specialising in back-end, DevOps and cloud. I soon took on more: coaching colleagues placed at different clients, training, recruiting, and giving talks on trending topics (IoT, Go, …).',
       tags: ['kubernetes', 'docker', 'training', 'leadership'],
       roles: [
         {
           name: 'team-lead',
           bullets: [
-            "coached and managed a team of {num:10} {people:people}, following each colleague's career and missions",
-            'met clients to measure their satisfaction with what we delivered',
-            'ran year-end reviews covering career and salary package',
+            "coached and managed a team of {num:10} {people:people}, following each colleague's career and assignments",
+            'met clients to gauge their satisfaction with our work',
+            'ran year-end reviews covering career plans and salary packages',
           ],
         },
         {
           name: 'trainer',
           bullets: [
-            'created training material (slides, exercises), including the {ship:Docker} and {cloud:Kubernetes} courses',
-            'gave basic and advanced trainings and talks, internally and for clients such as the Luxembourg Chamber of Deputies and the CSSF',
-            'delivered full custom training sessions for clients like Alten in Switzerland',
+            'created training materials (slides, exercises), including the {ship:Docker} and {cloud:Kubernetes} courses',
+            'gave beginner and advanced training courses and talks, both internally and for clients such as the Luxembourg Chamber of Deputies and the CSSF',
+            'delivered complete, tailor-made training sessions for clients such as Alten in Switzerland',
           ],
         },
         {
           name: 'recruiter',
           bullets: [
-            'helped Talent Managers hire through {people:PlayOffs}: three live-coding tests on algorithms, languages and frameworks that assess both technical and soft skills',
+            'helped talent managers recruit through {people:PlayOffs}, a series of three live-coding tests on algorithms, languages and frameworks that assess both technical and soft skills',
           ],
         },
       ],
@@ -212,7 +212,7 @@ export const CV: CvData = {
           start: '2020-03',
           end: '2020-09',
           summary:
-            'Helped developers deliver more business value with tooling, support and migrations to modern platforms like OpenShift and Pivotal Cloud Foundry. Provided CI/CD, workflow pipelines and server provisioning as a service.',
+            'I helped developers deliver more business value through tooling, support and migrations to modern platforms such as OpenShift and Pivotal Cloud Foundry, and provided CI/CD, workflow pipelines and server provisioning as a service.',
           tags: ['openshift', 'pcf', 'ci-cd'],
         },
         {
@@ -222,7 +222,7 @@ export const CV: CvData = {
           start: '2020-01',
           end: '2020-02',
           summary:
-            'Short mission migrating a client from AWS to Google Cloud, running their workload on fully managed GKE.',
+            'A short mission helping colleagues migrate a client from AWS to Google Cloud, with their workload running on fully managed GKE.',
           tags: ['gke', 'spring-boot', 'angular', 'cloud-build'],
         },
         {
@@ -232,13 +232,13 @@ export const CV: CvData = {
           start: '2018-10',
           end: '2020-03',
           summary:
-            'ING entrusted me with creating an OPS unit so teams could own releases and incidents on their assets, started in the Daily Banking & Lending tribe and extended bank-wide. In parallel, a large refactor of payment processing.',
+            'ING entrusted me with creating an Ops unit so that teams could manage the releases and incidents of their own applications. The initiative started in the Daily Banking & Lending tribe and then spread bank-wide. In parallel, I worked on a major overhaul of payment processing.',
           tags: ['java', 'jenkins', 'ansible', 'elk'],
           bullets: [
-            'set up a guild to spread the {ship:DevOps culture} within ING, and evangelised the model and its strategy',
-            'rolled out Jenkins for packaging, Ansible for infrastructure as code, ELK for log aggregation and liveness',
-            'contributed to the **PSD2** European directive implementation',
-            'migrated the **SWIFT** payment platform to the ING group platform, processing {num:thousands of payments} daily',
+            'set up a guild to spread {ship:DevOps culture} within ING, and championed the model and its strategy',
+            'rolled out Jenkins for packaging, Ansible for infrastructure as code, and ELK for log aggregation and service health monitoring',
+            'contributed to implementing the European **PSD2** directive',
+            'migrated the **SWIFT** payment platform to the ING Group platform, which processes {num:thousands of payments} a day',
           ],
         },
         {
@@ -248,12 +248,12 @@ export const CV: CvData = {
           start: '2017-05',
           end: '2018-10',
           summary:
-            'Migrated a legacy Java QT Jambi trading application, one financial product at a time, into Spring Boot 2 microservices and Angular 6 micro-frontends.',
+            'I migrated a legacy trading application built with Java and Qt Jambi, one financial product at a time, to Spring Boot 2 microservices and Angular 6 micro-frontends.',
           tags: ['spring-boot', 'angular', 'groovy', 'docker'],
           bullets: [
-            'wrote a Groovy shared library for Jenkins pipelines as code; deployments with XL Deploy',
-            'built a full CI/CD pipeline for Angular component libraries, when no native solution existed',
-            'advised the architecture team on Docker, with POCs including Spring Cloud',
+            'wrote a Groovy shared library for Jenkins pipelines as code, with deployments through XL Deploy',
+            'built a complete CI/CD pipeline for Angular component libraries at a time when no native solution existed',
+            'advised the architecture team on Docker, with proofs of concept including Spring Cloud integration',
           ],
         },
         {
@@ -263,7 +263,7 @@ export const CV: CvData = {
           start: '2017-02',
           end: '2017-05',
           summary:
-            'Document management platform that makes laws readable for jurists and lawyers. Built the desktop publishing application that consolidates legal texts and exports them in a printer-publisher format to be printed as books.',
+            "Legitech builds a document management platform that makes legislation easier to read for jurists and lawyers. I built the desktop publishing application that consolidates legal texts and exports them in a format the publisher can print as books.",
           tags: [],
         },
       ],
@@ -274,10 +274,10 @@ export const CV: CvData = {
       start: '2016-09',
       end: '2017-02',
       location: 'Luxembourg',
-      summary: 'TMA team: restored the stability of Java applications in production and modernised them.',
+      summary: 'In the application maintenance team, I restored the stability of Java applications in production and modernised them.',
       tags: ['java', 'maintenance'],
       bullets: [
-        'ensure quality and availability of many applications, analyse day-to-day issues and fix them',
+        'ensured the quality and availability of many applications, and analysed and fixed day-to-day issues',
         'set up new tools to make maintenance easier',
       ],
     },
@@ -288,10 +288,10 @@ export const CV: CvData = {
       end: '2016-09',
       location: 'Metz',
       summary:
-        'Junior sysadmin/integrator in the manufacturing process team: automation of nightly builds, continuous integration, packaging and deployment.',
+        'As a junior system administrator and integrator in the build and release team, I automated nightly builds, continuous integration, packaging and deployment.',
       tags: ['jenkins', 'docker', 'groovy', 'git'],
       bullets: [
-        'release management of applications, and health of CI and deployed apps across dev, test and QA',
+        'managed application releases and kept CI and deployed applications healthy across dev, test and QA environments',
         'improved tooling for the DevOps strategy (Docker, Jenkins pipelines, Groovy)',
         'trained people on Git',
       ],
@@ -315,9 +315,9 @@ export const CV: CvData = {
   ],
 
   education: [
-    { year: 2014, name: 'Computer Science degree', school: 'Université de Lorraine, Metz' },
-    { year: 2012, name: 'DUT, University Technological Diploma', school: 'Université de Lorraine, Metz' },
-    { year: 2010, name: 'Scientific Baccalaureate', school: 'Lycée Condorcet, Schoeneck' },
+    { year: 2014, name: 'Degree in Computer Science', school: 'Université de Lorraine, Metz' },
+    { year: 2012, name: 'University Diploma of Technology (DUT)', school: 'Université de Lorraine, Metz' },
+    { year: 2010, name: 'Baccalaureate, science track', school: 'Lycée Condorcet, Schoeneck' },
   ],
 
   /** `level` is out of 10 and drawn as a bar. */
@@ -327,7 +327,7 @@ export const CV: CvData = {
     { name: 'German', level: 6, label: 'proficient' },
   ],
 
-  interests: ['music & guitar', 'motorcycles', 'video games', 'computer science'],
+  interests: ['music & guitar', 'riding motorcycles', 'video games', 'computer science'],
 };
 
 /* ---------- helpers ---------- */
